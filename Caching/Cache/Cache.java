@@ -1,3 +1,8 @@
+// Examples of various types of CPU caching methods
+// For CS320 - Computer Architecture
+//
+// By Zeal Jagannatha
+
 package Cache;
 
 // The Cache proper.
@@ -6,38 +11,68 @@ import Cache.*;
 // For Vector and LinkedList
 import java.util.*;
 
-interface Cache<valueType, listType extends List> {
+abstract class Cache<valueType, listType extends List<valueType>> {
 
-	////
-	//// Data Members
-	////
+    ////
+    //// Class Members
+    ////
 
-	// The uncached list
-	protected listType uncachedList;
+    // Simple Pair class
+    protected class Pair<firstType,secondType> {
+        //Data Members
+        public firstType first;
+        public secondType second;
 
-	////
-	//// Methods
-	////
+        // Constructors
+        public Pair() {
+            // Do Nothing
+        }
+        public Pair(firstType f, secondType s) {
+            first = f;
+            second = s;
+        }
+    }
 
-	// Get a particular value
-	public valueType get(int key);
+    ////
+    //// Data Members
+    ////
 
-	// Set a particular value
-	public void set(int key, valueType newValue);
+    // The uncached list
+    protected listType uncachedList;
 
-	// Is a key in the cache?
-	protected boolean inCache(int key);
+    ////
+    //// Methods
+    ////
 
-	// Cache a value that's not in the cache
-	protected void cacheValue(int key);
+    // Get a particular value
+    public valueType get(Integer key) {
+        if(!inCache(key))
+            placeInCache(key);
+        return getFromCache(key).second;
+    }
 
-	// Get specifically from the cache
-	protected valueType getFromCache(int key);
+    // Set a particular value
+    public void set(Integer key, valueType newValue) {
+        if(!inCache(key))
+            placeInCache(key);
+        setToCache(key,newValue);
+    }
 
-	// Set a value specifically in the cache
-	protected void setToCache(int key, valueType newValue);
+    // Is a key in the cache?
+    protected boolean inCache(Integer key) {
+        return getFromCache(key).first == key;
+    }
 
-	// Prints the cache's contents
-	public void printCache();
+    // Cache a value that's not in the cache
+    protected abstract void placeInCache(Integer key);
+
+    // Get specifically from the cache
+    protected abstract Pair<Integer,valueType> getFromCache(Integer key);
+
+    // Set a value specifically in the cache
+    protected abstract void setToCache(Integer key, valueType newValue);
+
+    // Prints the cache's contents
+    public abstract void printCache();
 
 }
