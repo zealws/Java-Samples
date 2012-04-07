@@ -5,7 +5,7 @@ import java.util.*;
 
 // This particular class implements a Dynamic Hash table via Incremental Rehashing
 // Linear probing is used to resolve collisions.
-class DynamicHashTable<valueType> {
+class IncrementalHashtable<valueType> {
 
     ////
     //// Data Members
@@ -30,10 +30,10 @@ class DynamicHashTable<valueType> {
     //// Constructors
     ////
 
-    // Creates a DynamicHashTable with a given load constant and size
-    // If a load constant of 1 is given, the result is the equivalent of static hashing.
+    // Creates a IncrementalHashtable with a given load constant and size
+    // If a load constant of 1 is given, the result is the equivalent of (bad) static hashing.
     // I.E. an exception is thrown as soon as a value is inserted into a full table.
-    public DynamicHashTable(int initLoadConstant, int initSize) {
+    public IncrementalHashtable(int initLoadConstant, int initSize) {
         loadConstant = initLoadConstant;
         primary = new Vector<Pair<Integer,valueType>>(initSize);
         primary.setSize(initSize);
@@ -85,10 +85,14 @@ class DynamicHashTable<valueType> {
             if(highwaterMark+loadConstant >= primary.size()) {
                 // This means we're done with the primary table
                 // So we can discard it and make the secondary our new primary
+
+                /*
                 System.out.println("Switching tables...");
                 System.out.print("Load: ");
                 System.out.print(loadPercent());
                 System.out.print(" => ");
+                */
+
                 load = 2*primary.size()/loadConstant;
                 primary = secondary;
                 secondary = new Vector<Pair<Integer,valueType>>(primary.size()*2);
@@ -99,6 +103,10 @@ class DynamicHashTable<valueType> {
         }
 
     }
+
+    ///
+    /// Helper Functions
+    ///
 
     // Maps a key into the primary table
     private Integer map(Integer key, Vector<Pair<Integer,valueType>> table) {
@@ -128,7 +136,6 @@ class DynamicHashTable<valueType> {
     private Integer findKeyOrEmpty(Integer key, Vector<Pair<Integer,valueType>> table) {
         Integer bucket = map(key,table);
         while(table.get(bucket) != null && table.get(bucket).first != key) {
-            System.out.println("blah");
             bucket = bucket+1;
             bucket = bucket%table.size();
             if(key == bucket) {
@@ -145,7 +152,7 @@ class DynamicHashTable<valueType> {
     }
 
     // Prints to System.out the contents of the primary table
-    public void print() {
+    public void printContents() {
         for(int i = 0; i < primary.size(); i++) {
             Pair<Integer,valueType> p = primary.get(i);
             System.out.print(i);
