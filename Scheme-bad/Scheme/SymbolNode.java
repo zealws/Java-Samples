@@ -1,15 +1,15 @@
 // Scheme language interpreter
 // SExpression Representations
-// Partially modified from Dr. Zaring's sample C++ code.
+// Shamelessly stolen/adopted from Dr. Zaring's sample C++ code.
 
 package Scheme;
 
 // The scheme proper
 import Scheme.*;
 
-// Symbol class
-// Represents a symbol expression
-public class Symbol extends SExpression {
+// SymbolNode class
+// Provides the body for an Symbol expression
+class SymbolNode extends SExpressionNode {
 
     ////
     //// Data Members
@@ -22,7 +22,7 @@ public class Symbol extends SExpression {
     //// Constructors
     ////
 
-    public Symbol(String name) {
+    SymbolNode(String name) {
         myName = name;
     }
 
@@ -33,11 +33,6 @@ public class Symbol extends SExpression {
     // Converts an SExpressionNode to a string
     public String toString() {
         return myName;
-    }
-
-    // Converts an SExpressionNode to a string with type information
-    public String toTypedString() {
-        return "Symbol("+toString()+")";
     }
 
     // Is the SExpression a symbol?

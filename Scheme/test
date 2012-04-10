@@ -1,0 +1,1 @@
+((lambda (x) (car (cdr x))) '(a . (b . c)))

@@ -1,16 +1,16 @@
 // Scheme language interpreter
 // SExpression Representations
-// Partially modified from Dr. Zaring's sample C++ code.
+// Shamelessly stolen/adopted from Dr. Zaring's sample C++ code.
 
 package Scheme;
 
 // The scheme proper
 import Scheme.*;
 
-// Boolean class
-// Represents a boolean expression
+// SBooleanNode class
+// Provides the body for a boolean expression
 // So named to avoid conflicts with the built-in Boolean class.
-public class SBoolean extends SExpression {
+class SBooleanNode extends SExpressionNode {
 
     ////
     //// Data Members
@@ -22,7 +22,7 @@ public class SBoolean extends SExpression {
     //// Constructors
     ////
 
-    public SBoolean(boolean value) {
+    public SBooleanNode(boolean value) {
         myValue = value;
     }
 
@@ -36,11 +36,6 @@ public class SBoolean extends SExpression {
             return "#t";
         else
             return "#f";
-    }
-
-    // Converts an SExpressionNode to a string with type information
-    public String toTypedString() {
-        return "Boolean("+toString()+")";
     }
 
     // Is the SExpression a boolean?

@@ -1,15 +1,15 @@
 // Scheme language interpreter
 // SExpression Representations
-// Partially modified from Dr. Zaring's sample C++ code.
+// Shamelessly stolen/adopted from Dr. Zaring's sample C++ code.
 
 package Scheme;
 
 // The scheme proper
 import Scheme.*;
 
-// Pair class
-// Represents a cons cells
-public class Pair extends SExpression {
+// PairNode class
+// Provides the body for a cons cell expression
+class PairNode extends SExpressionNode {
 
     ////
     //// Data Members
@@ -23,7 +23,7 @@ public class Pair extends SExpression {
     //// Constructor
     ////
 
-    public Pair(SExpression car, SExpression cdr) {
+    public PairNode(SExpression car, SExpression cdr) {
         myCar = car;
         myCdr = cdr;
     }
@@ -35,11 +35,6 @@ public class Pair extends SExpression {
     // Converts an PairNode to a string
     public String toString() {
         return "(" + myCar.toString() + " . " + myCdr.toString() + ")";
-    }
-
-    // Converts an SExpressionNode to a string with type information
-    public String toTypedString() {
-        return "Pair"+toString();
     }
 
     // Is the SExpression a pair?
